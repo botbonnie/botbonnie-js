@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Facebook Login Manual Example</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="../css/signin.css">
+</head>
+<body>
+  <script>
+    const access_token = getParameterByName('#access_token')
+    var fbid = null
+    function getParameterByName(name, url) {
+      if (!url) {
+        url = window.location.href;
+      }
+      name = name.replace(/[\[\]]/g, "\\$&");
+      var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+          results = regex.exec(url);
+      if (!results) return null;
+      if (!results[2]) return '';
+      return decodeURIComponent(results[2].replace(/\+/g, " "));
+    }
+
+    // Here we run a very simple test of the Graph API after login is
+    // successful.  See statusChangeCallback() for when this call is made.
+    function testAPI() {
+      if (!access_token) { return }
+      console.log('Welcome!  Fetching your information.... ');
+      $.ajax({
+        type: "GET",
+        url: `https://graph.facebook.com/v2.8/me?access_token=${access_token}`,
+        success: function(response) {
+          console.log('Successful login for: ' + response.name);
+          fbid = response.id
+          document.getElementById('status').innerHTML = 'Thanks for logging in, ' + response.name + '!';
+        },
+        error: function(err) {
+          alert('please make sure the access_token is valid!')
+        }
+      })
+    }
+
+    function myFacebookLogin() {
+      const APP_ID = 'your_facebook_login_app_id'
+      const redirect_uri = window.location.href
+      window.location = `https://www.facebook.com/v2.8/dialog/oauth?client_id=${APP_ID}&response_type=token&redirect_uri=${redirect_uri}`
+    }
+
+    function myFacebookLogout() {
+      if (!fbid || !access_token) { return }
+      const redirectUrl = window.location.origin + window.location.pathname
+      $.ajax({
+        type: "DELETE",
+        url: `https://graph.facebook.com/v2.8/${fbid}/permissions?access_token=${access_token}`,
+        success: function(response) {
+          window.location = redirectUrl
+        },
+        error: function(err) {
+          alert('please make sure the access_token is valid!')
+        }
+      })
+    }
+
+    function messageSentCallback() {
+      document.getElementById('msg-status').innerHTML = 'Sent message success!<br />You will receive message soon...'
+    }
+
+  </script>
+
+  <!-- render area -->
+
+  <div class="container">
+    <div class="form-signin">
+      <h2 class="form-signin-heading">Account Login Demo</h2>
+      <button id='loginBtn' class="btn btn-lg btn-primary btn-block" onClick='myFacebookLogin()'>Facebook Login</button>
+      <div id="status"></div>
+    </div>
+
+    <div id='msg-area' class='msg-area'>
+      <button id='sendMessageBtn' class="btn btn-lg btn-primary btn-block" onClick='BotBonnie.sendMessage(messageSentCallback)'>Send message!</button>
+      <div id="msg-status"></div>
+    </div>
+  </div> <!-- /container -->
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://d2ilc8y2nu13we.cloudfront.net/botbonnie.min.js"></script>
+<script>
+
+  BotBonnie.init({
+    appId: 'your_facebook_login_app_id',
+    pageId: 'your_fanpage_id'
+  });
+
+  if (access_token) {
+    testAPI()
+    document.getElementById('msg-area').style.display = 'block';
+    document.getElementById('loginBtn').textContent = 'Logout'
+    document.getElementById('loginBtn').onclick = myFacebookLogout
+  } else {
+    // The person is not logged into your app or we are unable to tell.
+    document.getElementById('status').innerHTML = 'Please log into this app.';
+    document.getElementById('loginBtn').textContent = 'Facebook Login'
+    document.getElementById('loginBtn').onclick = myFacebookLogin
+  }
+</script>
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+</body>
+</html>

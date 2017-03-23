@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Facebook Login JavaScript SDK Example</title>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="../css/signin.css">
+</head>
+<body>
+  <script>
+    // This is called with the results from from FB.getLoginStatus().
+    function statusChangeCallback(response) {
+      document.getElementById('loginBtn').style.display = 'block';
+      // The response object is returned with a status field that lets the
+      // app know the current login status of the person.
+      // Full docs on the response object can be found in the documentation
+      // for FB.getLoginStatus().
+      if (response.status === 'connected') {
+        // Logged into your app and Facebook.
+        testAPI();
+        document.getElementById('sendMessageBtn').style.display = 'block';
+        document.getElementById('loginBtn').textContent = 'Log out'
+        document.getElementById('loginBtn').onclick = myFacebookLogout
+      } else {
+        // The person is not logged into your app or we are unable to tell.
+        document.getElementById('status').innerHTML = 'Please log ' +
+          'into this app.';
+        document.getElementById('loginBtn').textContent = 'Log in'
+        document.getElementById('loginBtn').onclick = myFacebookLogin
+      }
+    }
+
+    // This function is called when someone finishes with the Login
+    // Button.  See the onlogin handler attached to it in the sample
+    // code below.
+    function checkLoginState() {
+      FB.getLoginStatus(function(response) {
+        statusChangeCallback(response);
+      });
+    }
+
+    window.fbAsyncInit = function() {
+      FB.init({
+        appId      : 'your_facebook_app_id',
+        cookie     : true,  // enable cookies to allow the server to access
+                            // the session
+        xfbml      : true,  // parse social plugins on this page
+        version    : 'v2.8' // use graph api version 2.8
+      });
+
+      // Now that we've initialized the JavaScript SDK, we call
+      // FB.getLoginStatus().  This function gets the state of the
+      // person visiting this page and can return one of three states to
+      // the callback you provide.  They can be:
+      //
+      // 1. Logged into your app ('connected')
+      // 2. Logged into Facebook, but not your app ('not_authorized')
+      // 3. Not logged into Facebook and can't tell if they are logged into
+      //    your app or not.
+      //
+      // These three cases are handled in the callback function.
+
+      FB.getLoginStatus(function(response) {
+        statusChangeCallback(response);
+      });
+
+    };
+
+    // Load the SDK asynchronously
+    (function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/en_US/sdk.js";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+
+    // Here we run a very simple test of the Graph API after login is
+    // successful.  See statusChangeCallback() for when this call is made.
+    function testAPI() {
+      console.log('Welcome!  Fetching your information.... ');
+      FB.api('/me', function(response) {
+        console.log('Successful login for: ' + response.name);
+        document.getElementById('status').innerHTML = 'Thanks for logging in, ' + response.name + '!';
+      });
+    }
+
+    function myFacebookLogin() {
+      FB.login(function(){
+        checkLoginState();
+      }, {scope: 'public_profile,email'});
+    }
+
+    function myFacebookLogout() {
+      FB.api('/me/permissions', 'delete', function(response) {
+        console.log('delete perms: ', response);
+        FB.logout(function() {
+          checkLoginState();
+        });
+      });
+    }
+  </script>
+
+  <!-- render area -->
+
+  <div class="container">
+    <div class="form-signin">
+      <h2 class="form-signin-heading">Account Login Demo</h2>
+      <button id='loginBtn' class="btn btn-lg btn-primary btn-block" onClick='myFacebookLogin()'>Sign in</button>
+      <div id="status">
+      </div>
+    </div>
+
+    <div class='msg-area'>
+      <button id='sendMessageBtn' class="btn btn-lg btn-primary btn-block" onClick='sendMessage()'>Send message!</button>
+    </div>
+  </div> <!-- /container -->
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://d2ilc8y2nu13we.cloudfront.net/botbonnie.min.js"></script>
+<script>
+  BotBonnie.init({
+    appId: 'your_facebook_app_id',
+    pageId: 'your_fanpage_id'
+  });
+</script>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+</body>
+</html>
