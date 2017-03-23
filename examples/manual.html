@@ -62,8 +62,12 @@
       })
     }
 
-    function messageSentCallback() {
-      document.getElementById('msg-status').innerHTML = 'Sent message success!<br />You will receive message soon...'
+    function sendMessage() {
+      BotBonnie.sendMessage().then(function() {
+        document.getElementById('msg-status').innerHTML = 'Sent message success!<br />You will receive message soon...'
+      }, function(err) {
+        console.log(err)
+      })
     }
 
   </script>
@@ -78,7 +82,7 @@
     </div>
 
     <div id='msg-area' class='msg-area'>
-      <button id='sendMessageBtn' class="btn btn-lg btn-primary btn-block" onClick='BotBonnie.sendMessage(messageSentCallback)'>Send message!</button>
+      <button id='sendMessageBtn' class="btn btn-lg btn-primary btn-block" onClick='sendMessage()'>Send message!</button>
       <div id="msg-status"></div>
     </div>
   </div> <!-- /container -->
