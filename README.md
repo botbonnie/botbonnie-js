@@ -7,7 +7,7 @@
 Add the following code towards the end of the `body` section on your page. Placing it at the end allows the rest of the page to load first.
 
 ```html
-<script src="https://d2ilc8y2nu13we.cloudfront.net/botbonnie.min.js"></script>
+<script src="https://d2ilc8y2nu13we.cloudfront.net/botbonnie-1.0.1.min.js"></script>
 ```
 
 
@@ -55,7 +55,7 @@ BotBonnie.init({
 Send the message to user via Facebook messenger. It returns a promise that will resolve when the message sent.
 
 ```javascript
-BotBonnie.sendMessage().then(function() {
+BotBonnie.sendMessage('BB_POSTBACK_MODULE', "REPLACE_WITH_YOUR_MODULE_ID").then(function() {
   console.log('send message success')
 })
 ```
