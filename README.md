@@ -7,7 +7,7 @@
 Add the following code towards the end of the `body` section on your page. Placing it at the end allows the rest of the page to load first.
 
 ```html
-<script src="https://d2ilc8y2nu13we.cloudfront.net/botbonnie-1.0.1.min.js"></script>
+<script src="https://d2ilc8y2nu13we.cloudfront.net/botbonnie-1.0.2.min.js"></script>
 ```
 
 
