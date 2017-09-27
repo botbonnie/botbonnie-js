@@ -16,8 +16,10 @@ Initialize the plugin using this code snippet
 ```html
 <script>
   BotBonnie.init({
-    appId: 'your_facebook_login_app_id',
-    pageId: 'your_facebook_fanpage_id'
+  appId: 'your_facebook_login_app_id',
+  pageId: 'your_facebook_fanpage_id',
+  hostOrigin: 'https://botbonnie.com',
+  containerId: 'your_container_div_id'
   });
 </script>
 ```
@@ -44,6 +46,7 @@ BotBonnie.init({
   appId: 'your_facebook_login_app_id',
   pageId: 'your_facebook_fanpage_id',
   hostOrigin: 'https://botbonnie.com',
+  hidden: false,
   containerId: 'container_div_id'
 });
 
