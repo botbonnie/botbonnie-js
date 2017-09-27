@@ -7,7 +7,7 @@
 Add the following code towards the end of the `body` section on your page. Placing it at the end allows the rest of the page to load first.
 
 ```html
-<script src="https://d2ilc8y2nu13we.cloudfront.net/botbonnie-1.0.2.min.js"></script>
+<script src="https://d2ilc8y2nu13we.cloudfront.net/botbonnie-1.0.3.min.js"></script>
 ```
 
 
@@ -36,7 +36,7 @@ Initializes the BotBonnie SDK in the web page using the specified options.
 | appId | No | - | Your facebook login app id |
 | pageId | No | - | Your facebook fan page id |
 | hostOrigin | Yes | `window.location.origin` | Your website host origin |
-| hidden | Yes | `true` | Whether to hide send to messenger plugin |
+| hidden | Yes | `false` | Whether to hide send to messenger plugin |
 | containerId | Yes | - | Div id to put send to messenger plugin |
 
 ```javascript
@@ -44,7 +44,6 @@ BotBonnie.init({
   appId: 'your_facebook_login_app_id',
   pageId: 'your_facebook_fanpage_id',
   hostOrigin: 'https://botbonnie.com',
-  hidden: true,
   containerId: 'container_div_id'
 });
 
