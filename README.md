@@ -16,14 +16,53 @@ Initialize the plugin using this code snippet
 ```html
 <script>
   BotBonnie.init({
-    appId: 'your_facebook_login_app_id',
-    pageId: 'your_facebook_fanpage_id',
-    hostOrigin: 'https://botbonnie.com',
-    containerId: 'your_container_div_id'
+    appId: 'REPLACE_WITH_YOUR_FACEBOOK_APP_ID',
+    pageId: 'REPLACE_WITH_YOUR_FACEBOOK_FANPAGE_ID',
+    containerId: 'REPLACE_WITH_YOUR_DIV_ID'
   });
 </script>
 ```
 
+## How to use example ?
+This example can only run in http://localhost:9999, and it will send message to you from facebook [BotBonnie](https://www.facebook.com/BotBonnie/) fanpage.
+1. `npm start`
+2. open browser with http://localhost:9999
+
+## Preparation for Production use
+1. Build a bot using BotBonnie, bind to your fanpage.
+2. Contact BotBonnie with the following information to setup whitelist domain
+```
+* Your facebook fanpage ID
+* Your website domain
+```
+3. fill in the following required params
+```
+FB.init({
+  //TODO: replace appId with your facebook login APP ID
+  appId      : 'REPLACE_WITH_YOUR_FACEBOOK_APP_ID', 
+  xfbml      : true,  // parse social plugins on this page
+  version    : 'v2.8' // use graph api version 2.8
+});
+```
+```
+// TODO: replace the moduleId in BotBonnie
+BotBonnie.sendMessage('BB_POSTBACK_MODULE', 'REPLACE_WITH_YOUR_BOTBONNIE_MODULE_ID')
+```
+```
+BotBonnie.init({
+  //TODO: replace appId with your facebook login APP ID
+  appId: 'REPLACE_WITH_YOUR_FACEBOOK_APP_ID',
+  
+  //TODO: replace pageId with your facebook fanpage ID
+  pageId: 'REPLACE_WITH_YOUR_FACEBOOK_FANPAGE_ID',
+  
+  // Optional: replace this with your website domain
+  hostOrigin: 'REPLACE_WITH_YOUR_WEBSITE_DOMAIN',
+  
+  // TODO: replace this with html div id where to show facebook web plugin
+  containerId: 'REPLACE_WITH_YOUR_DIV_ID',  
+});
+```
 ## API
 
 ### Individual functions
@@ -43,11 +82,11 @@ Initializes the BotBonnie SDK in the web page using the specified options.
 
 ```javascript
 BotBonnie.init({
-  appId: 'your_facebook_login_app_id',
-  pageId: 'your_facebook_fanpage_id',
-  hostOrigin: 'https://botbonnie.com',
+  appId: 'REPLACE_WITH_YOUR_FACEBOOK_APP_ID',
+  pageId: 'REPLACE_WITH_YOUR_FACEBOOK_FANPAGE_ID',
+  hostOrigin: 'REPLACE_WITH_YOUR_WEBSITE_DOMAIN',
   hidden: false,
-  containerId: 'container_div_id'
+  containerId: 'REPLACE_WITH_YOUR_DIV_ID'
 });
 
 ```
