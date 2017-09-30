@@ -40,7 +40,7 @@
 
     window.fbAsyncInit = function() {
       FB.init({
-        appId      : 'your_facebook_app_id',
+        appId      : '1224200874302661', //TODO: replace appId with your facebook login APP ID
         cookie     : true,  // enable cookies to allow the server to access
                             // the session
         xfbml      : true,  // parse social plugins on this page
@@ -98,6 +98,15 @@
         });
       });
     }
+
+    function sendMessage() {
+      var MODULE_ID = 'module-rk53DCPXx' // TODO: replace this with your BotBonnie moduleId want to send
+      BotBonnie.sendMessage('BB_POSTBACK_MODULE', MODULE_ID).then(function() {
+        document.getElementById('msg-status').innerHTML = 'Sent message success!<br />You will receive message soon...'
+      }, function(err) {
+        console.log(err)
+      })
+    }
   </script>
 
   <!-- render area -->
@@ -112,16 +121,21 @@
 
     <div class='msg-area'>
       <button id='sendMessageBtn' class="btn btn-lg btn-primary btn-block" onClick='sendMessage()'>Send message!</button>
+      <div id="msg-status"></div>
+      <div id="msg-plugin"></div>
     </div>
   </div> <!-- /container -->
 
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<script src="https://d2ilc8y2nu13we.cloudfront.net/botbonnie.min.js"></script>
+<script src="https://d2ilc8y2nu13we.cloudfront.net/botbonnie-1.0.3.min.js"></script>
 <script>
   BotBonnie.init({
-    appId: 'your_facebook_app_id',
-    pageId: 'your_fanpage_id'
+    appId: '1224200874302661',  //TODO: replace appId with your facebook login APP ID
+    pageId: '1224499157602360', //TODO: replace pageId with your facebook fanpage ID
+    hostOrigin: 'http://localhost:9999',  // Optional: replace this with your website domain
+    containerId: 'msg-plugin',  // TODO: replace this with html div id where to show facebook web plugin
+    hidden: false               // Optional: we do not recommand to hide facebook web plugin since it's violate facebook policy
   });
 </script>
 <!-- Latest compiled and minified CSS -->
